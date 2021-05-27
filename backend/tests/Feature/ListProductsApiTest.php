@@ -8,15 +8,13 @@ class ListProductsApiTest extends TestCase
 {
 
     /**
-     * For the moment the api will return 500 if there is no token (tries to do a redirect to login page) so i will test this
-     * @todo To be fixed later on
      * @test
      */
     public function api_fails_without_token()
     {
         $response = $this->get('/api/products');
 
-        $response->assertStatus(500);
+        $response->assertStatus(401);
     }
 
     /** @test */

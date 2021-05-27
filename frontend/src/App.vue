@@ -10,7 +10,7 @@
       </ul>
     </p>
 
-    <form @submit.prevent="addProduct">
+    <form ref="addProduct" @submit.prevent="addProduct">
       <table>
         <tbody>
         <tr>
@@ -59,11 +59,10 @@ export default {
     columns: ['Product_id', 'Name', 'Description', 'Brand', 'Price', 'Stock', 'Actions'],
     newProduct: {...{'id': '','product_id': '', 'name': '', 'description': '', 'brand': '', 'price': '', 'stock': ''}},
     rows: [],
-    token: 'VmOWaEIyldef6EXdIuqmCifKFVBqe0u03kyrwSyXeqIQvcuqojvuA5MfNR7J',
     errors: [],
   }),
   created:function() {
-    fetch('http://localhost:8000/api/products?api_token=' + this.token)
+    fetch('http://localhost:8000/api/products?api_token=' + process.env.VUE_APP_API_TOKEN)
         .then(res => res.json())
         .then(res => {
           this.rows = res;
@@ -79,9 +78,27 @@ export default {
           && this.newProduct.price
           && this.newProduct.stock
       ) {
-        this.rows.push(this.newProduct)
-
-        axios.post("http://localhost:8000/api/products", { data: 'test', api_token : this.token })
+        let currentObj = this;
+        axios.post("http://localhost:8000/api/products?api_token=" + process.env.VUE_APP_API_TOKEN , {
+          product_id: this.newProduct.product_id,
+          name: this.newProduct.name,
+          description: this.newProduct.description,
+          brand: this.newProduct.brand,
+          price: this.newProduct.price,
+          stock: this.newProduct.stock
+        }).then(function (response) {
+          currentObj.rows.push({...{
+              'id': response.data.id,
+              'product_id': response.data.product_id,
+              'name': response.data.name,
+              'description': response.data.description,
+              'brand': response.data.brand,
+              'price': response.data.price,
+              'stock': response.data.stock
+          }})
+        });
+        this.newProduct = {...{'id': '','product_id': '', 'name': '', 'description': '', 'brand': '', 'price': '', 'stock': ''}};
+        return;
       }
 
       this.errors = [];
@@ -116,7 +133,7 @@ export default {
           return obj.id !== id
         });
 
-        axios.delete("http://localhost:8000/api/products/" + id + "?api_token=" + this.token)
+        axios.delete("http://localhost:8000/api/products/" + id + "?api_token=" + process.env.VUE_APP_API_TOKEN)
       }
     },
     highlightMatches(text) {

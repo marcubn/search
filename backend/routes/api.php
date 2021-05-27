@@ -16,13 +16,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:api', 'cors'])->group(function () {
-//Route::middleware('auth:api')->group(function () {
-    Route::get('user', [UserController::class, 'get']);
-    Route::get('products', [ProductController::class, 'index']);
-    Route::get('products/{id}', [ProductController::class, 'show']);
-    Route::post('products', [ProductController::class, 'store']);
-    Route::put('products/{id}', [ProductController::class, 'update']);
-    Route::delete('products/{id}', [ProductController::class, 'delete']);
+
+Route::group(['middleware' => ['json.response']], function () {
+    Route::middleware(['auth:api', 'cors'])->group(function () {
+    //Route::middleware('auth:api')->group(function () {
+        Route::get('user', [UserController::class, 'get']);
+        Route::get('products', [ProductController::class, 'index']);
+        Route::get('products/{id}', [ProductController::class, 'show']);
+        Route::post('products', [ProductController::class, 'store']);
+        Route::put('products/{id}', [ProductController::class, 'update']);
+        Route::delete('products/{id}', [ProductController::class, 'delete']);
+    });
 });
 

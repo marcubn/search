@@ -24,11 +24,7 @@ class ProductController extends Controller
 
     public function store(ProductStoreRequest $request)
     {
-        try {
-            $validated = $request->validated();
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-        }
+        $validated = $request->validated();
 
         $product = Product::create($validated);
 
