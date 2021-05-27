@@ -1,0 +1,39 @@
+# docker-compose.yml #
+version: "3.4"
+services:
+  app:
+    image: php:alpine
+    volumes:
+      - "./backend:/app"
+    working_dir: /app
+    command: "php artisan serve --host=0.0.0.0 --port=8000"
+    ports:
+      - 8000:8000
+    build:
+      context: docker/php
+      dockerfile: dev.Dockerfile
+  db:
+    image: mariadb
+    environment:
+      MYSQL_DATABASE: 'search'
+      MYSQL_ROOT_PASSWORD: 'secret'
+      MYSQL_PASSWORD: 'bobby_secret'
+      MYSQL_USER: 'bobby'
+    ports:
+      - 3306:3306
+    volumes:
+      - "db-data:/var/lib/mysql/data"
+  frontend:
+    build:
+      context: docker/vue
+      dockerfile: Dockerfile
+    volumes:
+      - './frontend:/frontend'
+      - '/frontend/node_modules'
+    ports:
+      - 8080:8080
+    links:
+      - "app"
+
+volumes:
+  db-data: {}
