@@ -35,10 +35,11 @@ services:
     links:
       - "app"
   composer:
-    image: composer:1.9
-    command: [ "composer", "install" ]
+    restart: 'no'
+    image: composer/composer:php7
+    command: install
     volumes:
-      - /var/www/docker-study.loc/recipe-05/php:/app
+      - .:/app
 
 volumes:
   db-data: {}
