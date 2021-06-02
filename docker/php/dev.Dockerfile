@@ -4,6 +4,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN docker-php-ext-install pdo
 WORKDIR /app
 COPY . /app
-RUN composer install
+RUN composer install --ignore-platform-reqs
 
 EXPOSE 8000
