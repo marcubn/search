@@ -31,7 +31,7 @@ services:
       dockerfile: dev.Dockerfile
     depends_on:
       composer_installation:
-        condition: service_stopped
+        condition: service_completed_successfully
   frontend:
     build:
       context: docker/vue
