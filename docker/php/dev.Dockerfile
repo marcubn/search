@@ -1,5 +1,4 @@
 FROM php:alpine
-RUN apt-get update -y && apt-get install -y libmcrypt-dev openssl
 RUN docker-php-ext-install pdo
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN docker-php-ext-install pdo
