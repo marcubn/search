@@ -8,4 +8,3 @@ RUN composer install --ignore-platform-reqs
 
 VOLUME /app
 
-RUN ["bin/composer.phar", "install", "--no-dev", "--no-interaction", "--optimize-autoloader", "--no-suggest"]
