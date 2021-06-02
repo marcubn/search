@@ -34,6 +34,11 @@ services:
       - 8080:8080
     links:
       - "app"
+  composer:
+    image: composer:1.9
+    command: [ "composer", "install" ]
+    volumes:
+      - /var/www/docker-study.loc/recipe-05/php:/app
 
 volumes:
   db-data: {}
