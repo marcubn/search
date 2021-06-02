@@ -5,6 +5,6 @@ RUN docker-php-ext-install pdo
 WORKDIR /app
 COPY . /app
 VOLUME /app
-RUN composer update --ignore-platform-reqs
+RUN composer install --ignore-platform-reqs
 
 EXPOSE 8000
